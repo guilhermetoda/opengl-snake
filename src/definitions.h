@@ -1,6 +1,10 @@
 #pragma once
 
-#define UP 0
-#define LEFT 1
-#define DOWN 2
-#define RIGHT 3
+class Definitions
+{
+    public:
+        static const int up = 0;
+        static const int left = 1;
+        static const int down = 2;
+        static const int right = 3;
+};

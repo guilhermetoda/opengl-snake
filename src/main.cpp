@@ -10,6 +10,7 @@
 
 Draw d;
 Food* food;
+Snake* snake;
 bool gameState = false;
 
 bool checkLoseConditions(GLfloat x, GLfloat y) 
@@ -23,7 +24,7 @@ bool checkLoseConditions(GLfloat x, GLfloat y)
     return false;
 }
 
-void drawSnake(Snake* snake, GLfloat xFoward, GLfloat yFoward) 
+void drawSnake(GLfloat xFoward, GLfloat yFoward) 
 {
     for (int i = snake->snakePieces.size() - 1; i >= 0 ; i--)
     {
@@ -65,7 +66,7 @@ void drawFood()
 int main(void)
 {
     GLFWwindow* window;
-    Snake* snake;
+    
     snake = new Snake();
     food = new Food();
 
@@ -118,42 +119,42 @@ int main(void)
     
 
         if (glfwGetKey( window, GLFW_KEY_RIGHT ) == GLFW_PRESS){
-            if (xPosition < 1.0f && snake->direction != LEFT) 
+            if (xPosition < 1.0f && snake->direction != Definitions::left) 
             {
                 xFoward = speed;
                 yFoward = 0.0f;
-                snake->direction = RIGHT;
+                snake->direction = Definitions::right;
             }
 	    }
 	    // Strafe left
 	    if (glfwGetKey( window, GLFW_KEY_LEFT ) == GLFW_PRESS){
-		    if (xPosition > -1.0f && snake->direction != RIGHT) 
+		    if (xPosition > -1.0f && snake->direction != Definitions::right) 
             {
                 xFoward = -speed;
                 yFoward = 0.0f;
-                snake->direction = LEFT;
+                snake->direction = Definitions::left;
             }
 	    }
         if (glfwGetKey( window, GLFW_KEY_UP ) == GLFW_PRESS){
-		    if (yPosition < 1.0f && snake->direction != DOWN) 
+		    if (yPosition < 1.0f && snake->direction != Definitions::down) 
             {
                 xFoward = 0.0f;
                 yFoward = speed;
-                snake->direction = UP;
+                snake->direction = Definitions::up;
             }
 	    }
 	    // Move backward
 	    if (glfwGetKey( window, GLFW_KEY_DOWN ) == GLFW_PRESS){
-		    if (yPosition > -1.0f && snake->direction != UP) 
+		    if (yPosition > -1.0f && snake->direction != Definitions::up) 
             {
                 xFoward = 0.0f;
                 yFoward = -speed;
-                snake->direction = DOWN;
+                snake->direction = Definitions::down;
             }
 	    }
        
         drawFood();
-        drawSnake(snake, xFoward, yFoward);
+        drawSnake(xFoward, yFoward);
 
 
         /* Swap front and back buffers */

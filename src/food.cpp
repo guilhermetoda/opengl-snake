@@ -12,8 +12,7 @@ Food::Food(GLfloat x, GLfloat y)
 Food::Food() 
 {
     srand((int)time(0));
-    xPosition = GenerateRandomNumber(-100, 100);
-    yPosition = GenerateRandomNumber(-100, 100);
+    GenerateNewFood();
 }
 
 void Food::GenerateNewFood() 
@@ -26,13 +25,11 @@ void Food::GenerateNewFood()
 
 float Food::GenerateRandomNumber(int min, int max) 
 {
-    if (min > max)
-		return (float)max;
+    if (min > max) 
+    {
+        return (float)max;
+    }
+    float r = (float)rand()/(float)RAND_MAX;
 
-	//int random_integer = rand() % (max + 1) + min;
-
-    float r = (float)rand() / (float)RAND_MAX;
 	return (min + r * (max - min)) / 100;
-
-	//return ((float)random_integer / 100);
 }
