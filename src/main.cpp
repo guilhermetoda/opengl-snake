@@ -6,6 +6,7 @@
 #include "food.h"
 #include "draw.h"     /* srand, rand */
 #include <stdlib.h>     /* srand, rand */
+#include <iostream>
 #include <time.h>       /* time */
 
 Draw d;
@@ -24,7 +25,38 @@ bool checkLoseConditions(GLfloat x, GLfloat y)
     return false;
 }
 
-void drawSnake(GLfloat xFoward, GLfloat yFoward) 
+//Deque version
+void drawSnake(GLfloat xFoward, GLfloat yFoward)
+{
+    GLfloat newX = snake->head->xPosition + xFoward;
+    GLfloat newY = snake->head->yPosition + yFoward;
+    // Removing last piece
+    d.quadDrawWithSize(snake->snakePieces.back()->xPosition, snake->snakePieces.back()->yPosition, 0.04f, 0.04f);
+    snake->moveSnake(newX, newY);
+    d.quadDraw(snake->head->xPosition, snake->head->yPosition, 1.0f, 1.0f, 1.0f);
+    
+    if (MathLib::Compare(snake->head->xPosition, food->xPosition) && MathLib::Compare(snake->head->yPosition, food->yPosition)) 
+    {
+        // Removing Food from the screen
+        d.quadDrawWithSize(food->xPosition, food->yPosition, 0.05f, 0.05f);
+
+        SnakePart* newPiece = snake->snakePieces.back();
+        d.quadDraw(snake->snakePieces.back()->xPosition, snake->snakePieces.back()->yPosition, 1.0f, 1.0f, 1.0f);
+        snake->snakePieces.push_back(newPiece);
+        snake->score++;
+        food->GenerateNewFood();
+    }
+    if (checkLoseConditions(snake->head->xPosition, snake->head->yPosition)) 
+    {
+        std::cout << "Snake with Deque \n";
+        std::cout << "GAME IS OVER!\n";
+        std::cout << "Your score is: "<< snake->score << "\n";
+        gameState = true;
+
+    }
+}
+
+/*void drawSnake(GLfloat xFoward, GLfloat yFoward) 
 {
     for (int i = snake->snakePieces.size() - 1; i >= 0 ; i--)
     {
@@ -56,11 +88,11 @@ void drawSnake(GLfloat xFoward, GLfloat yFoward)
             d.randomQuadDraw(snake->snakePieces[i]->xPosition, snake->snakePieces[i]->yPosition, 1.0f, 1.0f, 1.0f);
         }
     } 
-}
+}*/
 
 void drawFood() 
 {
-    d.randomQuadDraw(food->xPosition, food->yPosition, 0.0f, 1.0f, 0.0f);
+    d.quadDraw(food->xPosition, food->yPosition, 0.0f, 1.0f, 0.0f);
 }
 
 int main(void)
@@ -102,6 +134,10 @@ int main(void)
     GLfloat xFoward = 0.0f;
     GLfloat yFoward = 0.0f;
 
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor ( 0.0f, 0.0f, 0.0f, 1.0f );
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window) && !gameState)
@@ -113,10 +149,7 @@ int main(void)
 	    float deltaTime = float(currentTime - lastTime);
         //printf ("Delta Time %f\n", deltaTime);
         /* Render here */
-        //glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor ( 0.1f, 0.1f, 0.1f, 1.0f );
-	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+        
 
         if (glfwGetKey( window, GLFW_KEY_RIGHT ) == GLFW_PRESS){
             if (xPosition < 1.0f && snake->direction != Definitions::left) 

@@ -7,7 +7,8 @@ class Draw
 {
     public:
         Draw();
-        void randomQuadDraw(GLfloat x, GLfloat y, GLfloat R =0.0f, GLfloat G = 0.0f, GLfloat B = 0.0f);
+        void quadDraw(GLfloat x, GLfloat y, GLfloat R =0.0f, GLfloat G = 0.0f, GLfloat B = 0.0f);
+        void quadDrawWithSize(GLfloat x, GLfloat y, GLfloat sizeX, GLfloat sizeY, GLfloat R =0.0f, GLfloat G = 0.0f, GLfloat B = 0.0);
         float randQuadSize();
         void GetDirection();
         void increaseSnakeSize();

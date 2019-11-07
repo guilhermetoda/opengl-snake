@@ -1,13 +1,16 @@
 #include "snakePart.h"
-#include <vector>
+#include <glfw3.h>
+#include <deque>
 
 class Snake 
 {
     public:
         int direction;
         int score;
-        std::vector<SnakePart*> snakePieces;
+        SnakePart* head;
+        //std::vector<SnakePart*> snakePieces;
+        std::deque<SnakePart*> snakePieces;
 
+        void moveSnake(GLfloat newX, GLfloat newY);
         Snake();
-        ~Snake();
 };
